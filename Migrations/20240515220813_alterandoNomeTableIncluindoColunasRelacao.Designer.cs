@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using portifolioInvestimento.Configuration;
 
@@ -11,9 +12,11 @@ using portifolioInvestimento.Configuration;
 namespace portifolioInvestimento.Migrations
 {
     [DbContext(typeof(PortifolioDbContext))]
-    partial class PortifolioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515220813_alterandoNomeTableIncluindoColunasRelacao")]
+    partial class alterandoNomeTableIncluindoColunasRelacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,7 +98,7 @@ namespace portifolioInvestimento.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("usuarios");
+                    b.ToTable("clientes");
                 });
 
             modelBuilder.Entity("portifolioInvestimento.Models.Investimento", b =>

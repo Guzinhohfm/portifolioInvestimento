@@ -16,6 +16,8 @@ var conexao = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<PortifolioDbContext>(options =>
     options.UseSqlServer(conexao));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -11,5 +11,9 @@ namespace portifolioInvestimento.Configuration
         }
 
         public DbSet<Investimento> investimentos { get; set; }
+
+        public DbSet<Usuario> usuarios { get; set; }
+
+        public DbSet<Transacao> transacao { get; set; }
     }
 }
