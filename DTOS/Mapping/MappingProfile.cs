@@ -8,6 +8,7 @@ namespace portifolioInvestimento.DTOS.Mapping
         public MappingProfile() 
         { 
             CreateMap<Investimento, InvestimentoDTO>().ReverseMap();
+            CreateMap<Transacao, TransacaoDTO>().ReverseMap();
         }
     }
 }

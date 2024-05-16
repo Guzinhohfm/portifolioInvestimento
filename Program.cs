@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using portifolioInvestimento.Configuration;
+using portifolioInvestimento.Repositories;
 using portifolioInvestimento.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,11 @@ builder.Services.AddDbContext<PortifolioDbContext>(options =>
     options.UseSqlServer(conexao));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IInvestimentoRepository, InvestimentoRepository>();
+builder.Services.AddScoped<IInvestimentoService, InvestimentoService>();
+builder.Services.AddScoped<ITransacaoService, TransacaoService>();
+builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+
 
 var app = builder.Build();
 

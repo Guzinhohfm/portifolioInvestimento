@@ -12,7 +12,5 @@ public class Investimento
     public string? Guid { get; set; }
     public decimal valor { get; set; }
     public DateTime validadeProduto { get; set; }
-
-    public int UsuarioId { get; set; }
-    public virtual Usuario Usuario { get; set; }
+  
 }

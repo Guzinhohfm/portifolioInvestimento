@@ -8,6 +8,8 @@ public class Transacao
 
     public int InvestimentoId { get; set; }
 
+    public string NomeInvestimento {  get; set; }
+
     public decimal ValorTransacao { get; set; }
 
     public DateTime DataTransacao { get; set; }

@@ -6,6 +6,8 @@ public class Usuario
 
     public string Name { get; set; }
 
-    public virtual ICollection<Investimento> Investimentos { get; set; }
+    public TipoUsuario TipoUsuario { get; set; }
+
+    public ICollection<Investimento> Investimentos { get; set; }
 
 }

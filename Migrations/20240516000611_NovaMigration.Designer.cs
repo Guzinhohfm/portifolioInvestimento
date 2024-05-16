@@ -12,8 +12,8 @@ using portifolioInvestimento.Configuration;
 namespace portifolioInvestimento.Migrations
 {
     [DbContext(typeof(PortifolioDbContext))]
-    [Migration("20240515023703_nova-migration")]
-    partial class novamigration
+    [Migration("20240516000611_NovaMigration")]
+    partial class NovaMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,26 +24,6 @@ namespace portifolioInvestimento.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("portifolioInvestimento.Models.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("InvestimentoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("clientes");
-                });
 
             modelBuilder.Entity("portifolioInvestimento.Models.Investimento", b =>
                 {
@@ -56,14 +36,22 @@ namespace portifolioInvestimento.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("validadeProduto")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("valor")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("investimentos");
                 });
@@ -94,6 +82,38 @@ namespace portifolioInvestimento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("transacao");
+                });
+
+            modelBuilder.Entity("portifolioInvestimento.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoUsuario")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("usuarios");
+                });
+
+            modelBuilder.Entity("portifolioInvestimento.Models.Investimento", b =>
+                {
+                    b.HasOne("portifolioInvestimento.Models.Usuario", null)
+                        .WithMany("Investimentos")
+                        .HasForeignKey("UsuarioId");
+                });
+
+            modelBuilder.Entity("portifolioInvestimento.Models.Usuario", b =>
+                {
+                    b.Navigation("Investimentos");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,6 +11,5 @@ public class InvestimentoDTO
     [Required(ErrorMessage = "valor do produto é obrigatório")]
     public decimal valor { get; set; }
     public DateTime validadeProduto { get; set; }
-    public int UsuarioId { get; set; }
-    public virtual Usuario? Usuario { get; set; }
+
 }

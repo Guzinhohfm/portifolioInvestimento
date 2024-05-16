@@ -17,6 +17,7 @@ public class InvestimentoRepository : IInvestimentoRepository
 
     public async Task<Investimento> AdicionarInvestimento(Investimento investimento)
     {
+        investimento.Guid = RandomizarId.GerarIdUnico();
         _context.investimentos.Add(investimento);
         await _context.SaveChangesAsync();
         return investimento;

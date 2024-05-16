@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using portifolioInvestimento.Configuration;
+using portifolioInvestimento.DTOS;
 using portifolioInvestimento.Models;
+using portifolioInvestimento.Services;
 
 namespace portifolioInvestimento.Controllers
 {
@@ -9,62 +11,98 @@ namespace portifolioInvestimento.Controllers
     [ApiController]
     public class InvestimentosController : ControllerBase
     {
-        private readonly PortifolioDbContext _context;
-      
-        public InvestimentosController(PortifolioDbContext context)
+        private readonly IInvestimentoService _investimentoService;
+
+        public InvestimentosController(IInvestimentoService investimentoService)
         {
-            _context = context;
+            _investimentoService = investimentoService;
         }
 
-     
         [HttpPost("AdicionarNovoInvestimento")]
         
-        public IActionResult AdicionarInvestimento([FromBody] Investimento investimento)
+        public async Task<ActionResult<InvestimentoDTO>> AdicionarInvestimento([FromBody] InvestimentoDTO investimentoDTO)
         {
-            investimento.Guid = RandomizarId.GerarIdUnico();
-            _context.investimentos.Add(investimento);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(ListarInvestimentosPorNome), new { nome = investimento.nome }
-            , investimento);
+            if (investimentoDTO == null)
+                return BadRequest("Dados inválidos");
+
+            await _investimentoService.AdicionarInvestimento(investimentoDTO);
+
+            return new CreatedAtRouteResult("GetInvestimentoNome", new { nome = investimentoDTO.nome },
+                investimentoDTO);
         }
 
         [HttpGet("BuscarInvestimentos")]
 
-        public IEnumerable<Investimento> ListarInvestimentos([FromQuery] int skip = 0, [FromQuery] int take = 50)
+        public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> ListarInvestimentos()
         {
-            return _context.investimentos.Skip(skip).Take(take);
+            var investimentosDTO = await _investimentoService.ListarInvestimentos();
+
+            if (investimentosDTO == null)
+                return NotFound("Não há investimentos criados");
+
+            return Ok(investimentosDTO);
+            
         }
 
-        [HttpGet("BuscarInvestimento/{nome}")]
+        [HttpGet("BuscarInvestimentoNome/{nome}", Name = "GetInvestimentoNome")]
        
-        public IActionResult ListarInvestimentosPorNome(string nome) //Usando nullable pois item pode vir vazio
+       public async Task<ActionResult<InvestimentoDTO>> ListarInvestimentoPorNome(string nome)
         {
-            var investimento = _context.investimentos
-                .FirstOrDefault(investimento => investimento.nome == nome);
+            var investimentoDTO = await _investimentoService.ListarInvestimentoNome(nome);
 
-            if (investimento == null) return NotFound();
-            return Ok(investimento);
+            if (investimentoDTO == null)
+                return NotFound("Nenhum investimento com esse nome encontrado");
+            return Ok(investimentoDTO);
+            
+        }
+
+        [HttpGet("BuscarInvestimentoId/{id}", Name = "GetInvestimentoId")]
+
+        public async Task<ActionResult<InvestimentoDTO>> ListarInvestimentoPorId(int id)
+        {
+            var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);
+
+            if (investimentoDTO == null)
+                return NotFound("Nenhum investimento com esse nome encontrado");
+            return Ok(investimentoDTO);
+
         }
 
 
-        [HttpPut("EditarInvestimento")]
+        [HttpPut("EditarInvestimento/{nome}")]
         
-        public void EditarInvestimento()
+        public async Task<ActionResult> EditarInvestimento(string nome, [FromBody] InvestimentoDTO investimentoDTO)
         {
+            if (nome != investimentoDTO.nome)
+                return BadRequest();
+
+            if(investimentoDTO == null)
+                return BadRequest();
+
+            await _investimentoService.EditarInvestimento(investimentoDTO);
+
+            return Ok(investimentoDTO);
+        }
+
+
+        [HttpDelete("RemoverInvestimento/{id}")]
+
+        public async Task<ActionResult<InvestimentoDTO>> RemoverInvestimento(int id) 
+        {
+            var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);
+
+            if (investimentoDTO == null)
+            {
+                return NotFound("Não localizado");
+            }
+               
+
+            await _investimentoService.RemoverInvestimento(id);
+
+            return Ok(investimentoDTO);
 
         }
 
-        [HttpPost("transacao/comprar")]
-        public void ComprarTransacao()
-        {
 
-        }
-
-        [HttpPost("transacao/vender")]
-      
-        public void VenderTransacao()
-        {
-
-        }
     }
 }

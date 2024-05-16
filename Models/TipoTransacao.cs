@@ -2,6 +2,6 @@
 
 public enum TipoTransacao
 {
-    Compra,
-    Venda
+    Compra = 1,
+    Venda = 2
 }

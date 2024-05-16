@@ -12,8 +12,8 @@ using portifolioInvestimento.Configuration;
 namespace portifolioInvestimento.Migrations
 {
     [DbContext(typeof(PortifolioDbContext))]
-    [Migration("20240515221024_alterandoNomeTabelaClienteUsuario")]
-    partial class alterandoNomeTabelaClienteUsuario
+    [Migration("20240516012831_adiçãoNovasColunasTransacao")]
+    partial class adiçãoNovasColunasTransacao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,10 @@ namespace portifolioInvestimento.Migrations
                     b.Property<int>("InvestimentoId")
                         .HasColumnType("int");
 
+                    b.Property<string>("NomeInvestimento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TipoTransacao")
                         .HasColumnType("int");
 
@@ -95,6 +99,9 @@ namespace portifolioInvestimento.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TipoUsuario")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
