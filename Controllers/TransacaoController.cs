@@ -24,7 +24,7 @@ namespace portifolioInvestimento.Controllers
                 return BadRequest("Dados inválidos");
 
             await _transacaoService.Comprar(transacaoDTO);
-            transacaoDTO.mensagem = "Compra efetuada com sucesso"
+            transacaoDTO.mensagem = "Compra efetuada com sucesso";
 
             return new CreatedAtRouteResult("GetInvestimentoNome", new { nome = transacaoDTO.nomeInvestimento, mensagem = transacaoDTO.mensagem},
                 transacaoDTO);
