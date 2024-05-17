@@ -18,15 +18,27 @@ namespace portifolioInvestimento.Controllers
 
         [HttpPost("Comprar")]
 
-        public async Task<ActionResult<TransacaoDTO>> AdicionarInvestimento([FromBody] TransacaoDTO transacaoDTO)
+        public async Task<ActionResult<TransacaoDTO>> Comprar([FromBody] TransacaoDTO transacaoDTO)
         {
             if (transacaoDTO == null)
                 return BadRequest("Dados inválidos");
 
             await _transacaoService.Comprar(transacaoDTO);
-            transacaoDTO.mensagem = "Compra efetuada com sucesso";
 
-            return new CreatedAtRouteResult("GetInvestimentoNome", new { nome = transacaoDTO.nomeInvestimento, mensagem = transacaoDTO.mensagem},
+            return new CreatedAtRouteResult(new { id = transacaoDTO.investimentoId},
+                transacaoDTO);
+        }
+
+        [HttpPost("Vender")]
+
+        public async Task<ActionResult<TransacaoDTO>> Vender([FromBody] TransacaoDTO transacaoDTO)
+        {
+            if (transacaoDTO == null)
+                return BadRequest("Dados inválidos");
+
+            await _transacaoService.Comprar(transacaoDTO);
+
+            return new CreatedAtRouteResult(new { id = transacaoDTO.investimentoId },
                 transacaoDTO);
         }
     }

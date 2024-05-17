@@ -4,10 +4,9 @@ namespace portifolioInvestimento.DTOS
 {
     public class TransacaoDTO
     {
-        public string nomeInvestimento { get; set; }
-
-        public string mensagem {  get; set; }
-
+        public int investimentoId { get; set; }
+        public int clientId { get; set; }
+        public decimal valor {  get; set; }
 
     }
 }

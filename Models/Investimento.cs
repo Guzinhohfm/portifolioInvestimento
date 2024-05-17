@@ -10,7 +10,7 @@ public class Investimento
     [Required]
     public int id { get; set; }
     public string? Guid { get; set; }
-    public decimal valor { get; set; }
+    public TipoRisco? TipoRisco { get; set; }
     public DateTime validadeProduto { get; set; }
   
 }

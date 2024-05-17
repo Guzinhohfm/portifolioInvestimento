@@ -1,4 +1,5 @@
 ﻿using portifolioInvestimento.DTOS;
+using portifolioInvestimento.Models;
 
 namespace portifolioInvestimento.Services;
 
@@ -10,7 +11,7 @@ public interface IInvestimentoService
 
     Task<InvestimentoDTO> ListarInvestimentoId(int id);
 
-    Task AdicionarInvestimento(InvestimentoDTO investimentoDTO);
+    Task<InvestimentoDTO> AdicionarInvestimento(InvestimentoDTO investimentoDTO);
 
     Task EditarInvestimento (InvestimentoDTO investimentoDTO);
     Task RemoverInvestimento(int id);

@@ -33,7 +33,7 @@ namespace portifolioInvestimento.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UsuarioId")
+                    b.Property<int?>("TipoRisco")
                         .HasColumnType("int");
 
                     b.Property<string>("nome")
@@ -43,12 +43,7 @@ namespace portifolioInvestimento.Migrations
                     b.Property<DateTime>("validadeProduto")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("valor")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("investimentos");
                 });
@@ -93,6 +88,9 @@ namespace portifolioInvestimento.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,18 +101,6 @@ namespace portifolioInvestimento.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("usuarios");
-                });
-
-            modelBuilder.Entity("portifolioInvestimento.Models.Investimento", b =>
-                {
-                    b.HasOne("portifolioInvestimento.Models.Usuario", null)
-                        .WithMany("Investimentos")
-                        .HasForeignKey("UsuarioId");
-                });
-
-            modelBuilder.Entity("portifolioInvestimento.Models.Usuario", b =>
-                {
-                    b.Navigation("Investimentos");
                 });
 #pragma warning restore 612, 618
         }

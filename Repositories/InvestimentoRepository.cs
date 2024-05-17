@@ -19,6 +19,7 @@ public class InvestimentoRepository : IInvestimentoRepository
     {
         investimento.Guid = RandomizarId.GerarIdUnico();
         _context.investimentos.Add(investimento);
+
         await _context.SaveChangesAsync();
         return investimento;
 
@@ -38,7 +39,7 @@ public class InvestimentoRepository : IInvestimentoRepository
 
     public async Task<IEnumerable<Investimento>> ListarInvestimentos()
     {
-        return await _context.investimentos.OrderBy(x => x.valor).ToListAsync();
+        return await _context.investimentos.OrderBy(x => x.nome).ToListAsync();
     }
 
 
@@ -49,7 +50,7 @@ public class InvestimentoRepository : IInvestimentoRepository
 
     public async Task<Investimento> RemoverInvestimento(int id)
     {
-        var investimento = await _context.investimentos.Where(c => c.id == id).FirstOrDefaultAsync();
+        var investimento = await ListarInvestimentoId(id);
         _context.investimentos.Remove(investimento);
         await _context.SaveChangesAsync();
         return investimento;

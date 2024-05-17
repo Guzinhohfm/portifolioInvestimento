@@ -25,13 +25,20 @@ namespace portifolioInvestimento.Controllers
             if (investimentoDTO == null)
                 return BadRequest("Dados inválidos");
 
-            await _investimentoService.AdicionarInvestimento(investimentoDTO);
+           var investimento =  await _investimentoService.AdicionarInvestimento(investimentoDTO);
 
-            return new CreatedAtRouteResult("GetInvestimentoNome", new { nome = investimentoDTO.nome },
-                investimentoDTO);
-        }
+            var newInvestimento = new InvestimentoDTO
+            {
+                Id = investimento.Id,
+                nome = investimento.nome,
+                Guid = investimento.Guid,
+                validadeProduto = investimento.validadeProduto
+            };
 
-        [HttpGet("BuscarInvestimentos")]
+            return CreatedAtAction(nameof(ListarInvestimentoPorId), new { Id = investimento.Id }, newInvestimento);
+            }
+
+        [HttpGet("BuscarInvestimentos", Name = "GetInvestimento")]
 
         public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> ListarInvestimentos()
         {
@@ -39,6 +46,7 @@ namespace portifolioInvestimento.Controllers
 
             if (investimentosDTO == null)
                 return NotFound("Não há investimentos criados");
+
 
             return Ok(investimentosDTO);
             
@@ -63,7 +71,7 @@ namespace portifolioInvestimento.Controllers
             var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);
 
             if (investimentoDTO == null)
-                return NotFound("Nenhum investimento com esse nome encontrado");
+                return NotFound("Nenhum investimento com esse ID encontrado");
             return Ok(investimentoDTO);
 
         }

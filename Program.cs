@@ -18,10 +18,13 @@ builder.Services.AddDbContext<PortifolioDbContext>(options =>
     options.UseSqlServer(conexao));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<IInvestimentoRepository, InvestimentoRepository>();
 builder.Services.AddScoped<IInvestimentoService, InvestimentoService>();
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 
 var app = builder.Build();

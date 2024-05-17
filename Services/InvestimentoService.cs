@@ -16,10 +16,14 @@ public class InvestimentoService : IInvestimentoService
         _mapper = mapper;
     }
 
-    public async Task AdicionarInvestimento(InvestimentoDTO investimentoDTO)
+    public async Task<InvestimentoDTO> AdicionarInvestimento(InvestimentoDTO investimentoDTO)
     {
         var investimentoEntity = _mapper.Map<Investimento>(investimentoDTO);
-        await _investimentoRepository.AdicionarInvestimento(investimentoEntity);
+        var investimento = await _investimentoRepository.AdicionarInvestimento(investimentoEntity);
+
+
+        return _mapper.Map<InvestimentoDTO>(investimento);
+         
     }
 
     public async Task EditarInvestimento(InvestimentoDTO investimentoDTO)
@@ -48,9 +52,9 @@ public class InvestimentoService : IInvestimentoService
 
     public async Task RemoverInvestimento(int id)
     {
-        var investimentoEntity = _investimentoRepository.ListarInvestimentoId(id);
+        var investimentoEntity = await _investimentoRepository.ListarInvestimentoId(id);
 
 
-        await _investimentoRepository.RemoverInvestimento(investimentoEntity.Id);
+        await _investimentoRepository.RemoverInvestimento(investimentoEntity.id);
     }
 }

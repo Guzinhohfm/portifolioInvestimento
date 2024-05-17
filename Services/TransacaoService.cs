@@ -22,11 +22,22 @@ public class TransacaoService : ITransacaoService
         await _transacaoRepository.Comprar(transacaoEntity);
     }
 
-    
+    public async Task Vender(TransacaoDTO transacaoDTO)
+    {
+        var transacaoEntity = _mapper.Map<Transacao>(transacaoDTO);
+        await _transacaoRepository.Vender(transacaoEntity);
+    }
 
-    //public async TaskVender(TransacaoDTO transacaoDTO)
-    //{
-    //    var transacaoEntity = _mapper.Map<Transacao>(transacaoDTO);
-    //    await _transacaoRepository.Vender(transacaoEntity);
-    //}
+    public async Task<TransacaoDTO> ListarTransacaoNome(string nome)
+    {
+        var transacaoEntity = await _transacaoRepository.ListarTransacoesNome(nome);
+        return _mapper.Map<TransacaoDTO>(transacaoEntity);
+    }
+
+    public async Task<IEnumerable<TransacaoDTO>> ListarTransacoes()
+    {
+        var transacaoEntity = await _transacaoRepository.ListarTransacoes();
+        return _mapper.Map<IEnumerable<TransacaoDTO>>(transacaoEntity);
+    }
+
 }

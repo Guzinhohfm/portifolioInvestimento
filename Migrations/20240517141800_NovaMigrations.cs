@@ -6,11 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace portifolioInvestimento.Migrations
 {
     /// <inheritdoc />
-    public partial class NovaMigration : Migration
+    public partial class NovaMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "investimentos",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoRisco = table.Column<int>(type: "int", nullable: true),
+                    validadeProduto = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_investimentos", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "transacao",
                 columns: table => new
@@ -19,6 +35,7 @@ namespace portifolioInvestimento.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     InvestimentoId = table.Column<int>(type: "int", nullable: false),
+                    NomeInvestimento = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ValorTransacao = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DataTransacao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TipoTransacao = table.Column<int>(type: "int", nullable: false)
@@ -35,39 +52,13 @@ namespace portifolioInvestimento.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TipoUsuario = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_usuarios", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "investimentos",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    validadeProduto = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_investimentos", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_investimentos_usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "usuarios",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_investimentos_UsuarioId",
-                table: "investimentos",
-                column: "UsuarioId");
         }
 
         /// <inheritdoc />
