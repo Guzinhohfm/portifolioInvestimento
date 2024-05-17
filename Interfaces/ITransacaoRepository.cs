@@ -1,6 +1,6 @@
 ﻿using portifolioInvestimento.Models;
 
-namespace portifolioInvestimento.Repositories;
+namespace portifolioInvestimento.Interfaces;
 
 public interface ITransacaoRepository
 {
@@ -9,6 +9,4 @@ public interface ITransacaoRepository
     public Task<Transacao> Vender(Transacao transacao);
 
     public Task<IEnumerable<Transacao>> ListarTransacoes();
-
-    public Task<Transacao> ListarTransacoesNome(string nome);
 }

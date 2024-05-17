@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using portifolioInvestimento.DTOS;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
-using portifolioInvestimento.Repositories;
 
 namespace portifolioInvestimento.Services;
 
@@ -16,10 +16,11 @@ public class UsuarioService : IUsuarioService
         _mapper = mapper;
     }
 
-    public async Task CriarUsuario(UsuarioDTO usuarioDTO)
+    public async Task<UsuarioDTO> CriarUsuario(UsuarioDTO usuarioDTO)
     {
         var entityUsuario = _mapper.Map<Usuario>(usuarioDTO);
-        await _usuarioRepository.CriarUsuario(entityUsuario);
+        var usuario = await _usuarioRepository.CriarUsuario(entityUsuario);
+        return _mapper.Map<UsuarioDTO>(usuario);
     }
 
     public async Task EditarUsuario(UsuarioDTO usuarioDTO)
@@ -48,7 +49,7 @@ public class UsuarioService : IUsuarioService
 
     public async Task RemoverUsuario(int id)
     {
-        var entityUsuario = _usuarioRepository.ListarUsuariosPorId(id);
+        var entityUsuario = await _usuarioRepository.ListarUsuariosPorId(id);
 
 
         await _usuarioRepository.RemoverUsuario(entityUsuario.Id);

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using portifolioInvestimento.DTOS;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
-using portifolioInvestimento.Repositories;
 
 namespace portifolioInvestimento.Services;
 
@@ -50,11 +50,11 @@ public class InvestimentoService : IInvestimentoService
         return _mapper.Map<IEnumerable<InvestimentoDTO>>(investimentoEntity);
     }
 
-    public async Task RemoverInvestimento(int id)
+    public async Task DesativarInvestimento(int id)
     {
-        var investimentoEntity = await _investimentoRepository.ListarInvestimentoId(id);
+        var investimentoEntity = await _investimentoRepository.DesativarInvestimento(id);
+        await _investimentoRepository.EditarInvestimento(investimentoEntity);
 
-
-        await _investimentoRepository.RemoverInvestimento(investimentoEntity.id);
     }
+
 }

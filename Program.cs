@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using portifolioInvestimento.Configuration;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Repositories;
 using portifolioInvestimento.Services;
 

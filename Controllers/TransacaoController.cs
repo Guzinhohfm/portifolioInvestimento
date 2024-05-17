@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using portifolioInvestimento.DTOS;
-using portifolioInvestimento.Services;
+using portifolioInvestimento.Interfaces;
 
 namespace portifolioInvestimento.Controllers
 {
@@ -23,11 +23,16 @@ namespace portifolioInvestimento.Controllers
             if (transacaoDTO == null)
                 return BadRequest("Dados inválidos");
 
+            if (transacaoDTO.ValorTransacao <= 0)
+                return BadRequest("valor da transação deve ser maior que 0");
+
             await _transacaoService.Comprar(transacaoDTO);
 
-            return new CreatedAtRouteResult(new { id = transacaoDTO.investimentoId},
+            return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId},
                 transacaoDTO);
         }
+
+        //[HttpGet("")]
 
         [HttpPost("Vender")]
 
@@ -38,7 +43,7 @@ namespace portifolioInvestimento.Controllers
 
             await _transacaoService.Comprar(transacaoDTO);
 
-            return new CreatedAtRouteResult(new { id = transacaoDTO.investimentoId },
+            return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId },
                 transacaoDTO);
         }
     }

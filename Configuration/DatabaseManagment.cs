@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using portifolioInvestimento.Configuration;
 
-namespace portifolioInvestimento.Services;
+namespace portifolioInvestimento.Configuration;
 
 public static class DatabaseManagment
 {
@@ -14,5 +13,5 @@ public static class DatabaseManagment
             serviceDb.Database.Migrate(); //Gerar a migração pendente do banco de dados, criando tabelas caso não existam
         }
     }
-     
+
 }

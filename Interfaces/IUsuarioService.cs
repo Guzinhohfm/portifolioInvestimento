@@ -1,6 +1,6 @@
 ﻿using portifolioInvestimento.DTOS;
 
-namespace portifolioInvestimento.Services;
+namespace portifolioInvestimento.Interfaces;
 
 public interface IUsuarioService
 {
@@ -10,7 +10,7 @@ public interface IUsuarioService
 
     Task<UsuarioDTO> ListarUsuarioPorId(int id);
 
-    Task CriarUsuario(UsuarioDTO usuarioDTO);
+    Task<UsuarioDTO> CriarUsuario(UsuarioDTO usuarioDTO);
 
     Task EditarUsuario(UsuarioDTO usuarioDTO);
     Task RemoverUsuario(int id);

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using portifolioInvestimento.Configuration;
 using portifolioInvestimento.DTOS;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
-using portifolioInvestimento.Services;
 
 namespace portifolioInvestimento.Controllers
 {
@@ -31,7 +31,7 @@ namespace portifolioInvestimento.Controllers
             {
                 Id = investimento.Id,
                 nome = investimento.nome,
-                Guid = investimento.Guid,
+                TipoRisco = investimento.TipoRisco,
                 validadeProduto = investimento.validadeProduto
             };
 
@@ -93,9 +93,9 @@ namespace portifolioInvestimento.Controllers
         }
 
 
-        [HttpDelete("RemoverInvestimento/{id}")]
+        [HttpPut("DesativarInvestimento/{id}")]
 
-        public async Task<ActionResult<InvestimentoDTO>> RemoverInvestimento(int id) 
+        public async Task<ActionResult<InvestimentoDTO>> RemoverInvestimento(int id)
         {
             var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);
 
@@ -103,9 +103,9 @@ namespace portifolioInvestimento.Controllers
             {
                 return NotFound("Não localizado");
             }
-               
 
-            await _investimentoService.RemoverInvestimento(id);
+
+            await _investimentoService.DesativarInvestimento(id);
 
             return Ok(investimentoDTO);
 

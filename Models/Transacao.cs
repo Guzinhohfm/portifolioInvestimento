@@ -1,8 +1,7 @@
 ﻿namespace portifolioInvestimento.Models;
 
-public class Transacao
-{
-    public int Id { get; set; }
+public class Transacao : BaseEntity
+{ 
 
     public int ClientId { get; set; }
 

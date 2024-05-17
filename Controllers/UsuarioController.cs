@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using portifolioInvestimento.DTOS;
-using portifolioInvestimento.Services;
+using portifolioInvestimento.Interfaces;
 
 namespace portifolioInvestimento.Controllers
 {
@@ -23,10 +23,18 @@ namespace portifolioInvestimento.Controllers
             if (usuarioDTO == null)
                 return BadRequest("Dados inválidos");
 
-            await _usuarioService.CriarUsuario(usuarioDTO);
+           var usuario =  await _usuarioService.CriarUsuario(usuarioDTO);
 
-            return new CreatedAtRouteResult(new { nome = usuarioDTO.Name, tipo = usuarioDTO.TipoUsuario.ToString() },
-                usuarioDTO);
+            var newUsuario = new UsuarioDTO
+            {
+                Id = usuario.Id,
+                Name = usuario.Name,
+                Email = usuario.Email,
+                TipoUsuario = usuario.TipoUsuario
+
+            };
+
+            return CreatedAtAction(nameof(ListarUsuariosPorId), new { Id = usuario.Id }, newUsuario);
         }
 
         [HttpGet("BuscarUsuarios")]
@@ -43,7 +51,7 @@ namespace portifolioInvestimento.Controllers
         }
 
 
-        [HttpGet("BuscarUsuarios/{nome}", Name = "GetUsuarioNome")]
+        [HttpGet("BuscarUsuariosNome/{nome}", Name = "GetUsuarioNome")]
 
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ListarUsuariosPorNome(string nome)
         {
@@ -59,7 +67,7 @@ namespace portifolioInvestimento.Controllers
 
         [HttpGet("BuscarUsuarios/{id}", Name = "GetUsuarioId")]
 
-        public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ListarUsuariosPorId(int id)
+        public async Task<ActionResult<UsuarioDTO>> ListarUsuariosPorId(int id)
         {
             var usuariosDTO = await _usuarioService.ListarUsuarioPorId(id);
 
@@ -70,12 +78,16 @@ namespace portifolioInvestimento.Controllers
 
         }
 
-        [HttpPut("EditarUsuario/{nome}")]
 
-        public async Task<ActionResult> EditarUsuario(string nome, [FromBody] UsuarioDTO UsuarioDTO)
+        [HttpPut("EditarUsuario")]
+
+        public async Task<ActionResult> EditarUsuario([FromBody] UsuarioDTO UsuarioDTO)
         {
-            if (nome != UsuarioDTO.Name)
-                return BadRequest();
+
+            var UsuarioEditado = await _usuarioService.ListarUsuarioPorId(UsuarioDTO.Id);
+
+            if (UsuarioEditado == null)
+                return BadRequest("Não foi encontrado usuários com os dados fornecidos");
 
             if (UsuarioDTO == null)
                 return BadRequest();

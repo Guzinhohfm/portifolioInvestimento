@@ -1,6 +1,6 @@
 ﻿using portifolioInvestimento.Models;
 
-namespace portifolioInvestimento.Repositories
+namespace portifolioInvestimento.Interfaces
 {
     public interface IUsuarioRepository
     {

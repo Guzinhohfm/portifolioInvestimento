@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using portifolioInvestimento.DTOS;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
-using portifolioInvestimento.Repositories;
 
 namespace portifolioInvestimento.Services;
 
@@ -26,12 +26,6 @@ public class TransacaoService : ITransacaoService
     {
         var transacaoEntity = _mapper.Map<Transacao>(transacaoDTO);
         await _transacaoRepository.Vender(transacaoEntity);
-    }
-
-    public async Task<TransacaoDTO> ListarTransacaoNome(string nome)
-    {
-        var transacaoEntity = await _transacaoRepository.ListarTransacoesNome(nome);
-        return _mapper.Map<TransacaoDTO>(transacaoEntity);
     }
 
     public async Task<IEnumerable<TransacaoDTO>> ListarTransacoes()

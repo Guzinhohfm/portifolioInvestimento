@@ -13,6 +13,4 @@ public class InvestimentoDTO
 
     public TipoRisco? TipoRisco { get; set; }
 
-    public string? Guid { get; set; }
-
 }

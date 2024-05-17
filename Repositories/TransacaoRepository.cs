@@ -1,27 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using portifolioInvestimento.Configuration;
+using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
-using portifolioInvestimento.Services;
 
 namespace portifolioInvestimento.Repositories;
 
 public class TransacaoRepository : ITransacaoRepository
 {
-    private readonly IInvestimentoService _investimentoService;
-    private readonly IUsuarioService _usuarioService;
+    
     private readonly PortifolioDbContext _context;
+    private readonly IInvestimentoService _investimentoService;
 
-    public TransacaoRepository(IInvestimentoService investimentoService, PortifolioDbContext context, IUsuarioService usuarioService)
+    public TransacaoRepository(PortifolioDbContext context, IInvestimentoService investimentoService)
     {
-        _investimentoService = investimentoService;
         _context = context;
-        _usuarioService = usuarioService;
+        _investimentoService = investimentoService;
     }
 
     public async Task<Transacao> Comprar(Transacao transacao)
     {
         transacao.TipoTransacao = TipoTransacao.Compra;
+
+        int idInvestimento = transacao.InvestimentoId;
+
+        var Investimento = await _investimentoService.ListarInvestimentoId(idInvestimento);
+
+        transacao.NomeInvestimento = Investimento.nome;
+        transacao.DataTransacao = DateTime.Now;
         _context.transacao.Add(transacao);
         await _context.SaveChangesAsync();
         return transacao;
@@ -31,12 +37,7 @@ public class TransacaoRepository : ITransacaoRepository
 
     public async Task<IEnumerable<Transacao>> ListarTransacoes()
     {
-        return await _context.transacao.OrderBy(x => x.NomeInvestimento).ToListAsync();
-    }
-
-    public async Task<Transacao> ListarTransacoesNome(string nome)
-    {
-        return await _context.transacao.Where(x => x.NomeInvestimento == nome).FirstOrDefaultAsync();
+        return await _context.transacao.OrderBy(x => x.ValorTransacao).ToListAsync();
     }
 
     public async Task<Transacao> Vender(Transacao transacao)

@@ -1,6 +1,6 @@
 ﻿using portifolioInvestimento.Models;
 
-namespace portifolioInvestimento.Repositories;
+namespace portifolioInvestimento.Interfaces;
 
 public interface IInvestimentoRepository
 {
@@ -14,5 +14,5 @@ public interface IInvestimentoRepository
 
     public Task<Investimento> EditarInvestimento(Investimento investimentoEditado);
 
-    public Task<Investimento> RemoverInvestimento(int id);
+    public Task<Investimento> DesativarInvestimento(int id);
 }
