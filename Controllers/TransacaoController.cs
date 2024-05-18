@@ -32,7 +32,6 @@ namespace portifolioInvestimento.Controllers
                 transacaoDTO);
         }
 
-        //[HttpGet("")]
 
         [HttpPost("Vender")]
 
@@ -46,5 +45,32 @@ namespace portifolioInvestimento.Controllers
             return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId },
                 transacaoDTO);
         }
+
+
+        [HttpGet("GerarExtratoPorInvestimento")]
+
+        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoInvestimento([FromQuery] int investimentoId, int clientId)
+        {
+            var extratoInvestimento = await _transacaoService.GerarExtratoPorInvestimento(investimentoId, clientId);
+
+            if (extratoInvestimento == null)
+                return NotFound("Não há investimentos comprados");
+
+            return Ok(extratoInvestimento);
+        }
+
+
+        [HttpGet("GerarExtratoTotal")]
+
+        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoTotalCliente([FromQuery] int clientId)
+        {
+            var extratoInvestimento = await _transacaoService.GerarExtratoTotalCliente(clientId);
+
+            if (extratoInvestimento == null)
+                return NotFound("Não há investimentos comprados");
+
+            return Ok(extratoInvestimento);
+        }
+
     }
 }

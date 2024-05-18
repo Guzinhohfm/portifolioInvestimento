@@ -47,7 +47,7 @@ public class UsuarioRepository : IUsuarioRepository
     {
        var usuario =  await _context.usuarios.Where(x => x.Id == id).FirstOrDefaultAsync();
         _context.usuarios.Remove(usuario);
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return usuario;
     }
 }

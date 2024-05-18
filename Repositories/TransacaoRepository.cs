@@ -35,9 +35,15 @@ public class TransacaoRepository : ITransacaoRepository
 
     }
 
-    public async Task<IEnumerable<Transacao>> ListarTransacoes()
+    public async Task<IEnumerable<Transacao>> GerarExtratoPorInvestimento(int investimentoId, int clientId)
     {
-        return await _context.transacao.OrderBy(x => x.ValorTransacao).ToListAsync();
+        return await _context.transacao.Where(x => x.ClientId == clientId && x.InvestimentoId == investimentoId).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Transacao>> GerarExtratoTotalCliente(int clientId)
+    {
+        return await _context.transacao.Where(x => x.ClientId == clientId).ToListAsync();
+
     }
 
     public async Task<Transacao> Vender(Transacao transacao)

@@ -8,6 +8,8 @@ namespace portifolioInvestimento.DTOS
         public int InvestimentoId { get; set; }
         public int ClientId { get; set; }
 
+        public string? NomeInvestimento { get; set; }
+
         [Required(ErrorMessage = "valor da transação é obrigatório")]
         public decimal ValorTransacao {  get; set; }
 

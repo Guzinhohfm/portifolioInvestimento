@@ -26,6 +26,7 @@ builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<IEnviadorEmail, EnviadorEmail>(); // Transient utilizado para sempre que enviar um e-mail, uma nova instância do servico será gerada
 
 
 var app = builder.Build();

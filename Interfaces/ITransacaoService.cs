@@ -8,6 +8,8 @@ public interface ITransacaoService
 
     Task Vender(TransacaoDTO transacaoDTO);
 
-    Task<IEnumerable<TransacaoDTO>> ListarTransacoes();
+    Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId);
+
+    Task<IEnumerable<TransacaoDTO>> GerarExtratoTotalCliente(int clientId);
 
 }

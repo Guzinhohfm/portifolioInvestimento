@@ -20,7 +20,6 @@ public class InvestimentoRepository : IInvestimentoRepository
     {
         investimento.Ativo = true;
         _context.investimentos.Add(investimento);
-
         await _context.SaveChangesAsync();
         return investimento;
 

@@ -2,6 +2,7 @@
 using portifolioInvestimento.DTOS;
 using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
+using portifolioInvestimento.Repositories;
 
 namespace portifolioInvestimento.Services;
 
@@ -28,10 +29,15 @@ public class TransacaoService : ITransacaoService
         await _transacaoRepository.Vender(transacaoEntity);
     }
 
-    public async Task<IEnumerable<TransacaoDTO>> ListarTransacoes()
+    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId)
     {
-        var transacaoEntity = await _transacaoRepository.ListarTransacoes();
-        return _mapper.Map<IEnumerable<TransacaoDTO>>(transacaoEntity);
+        var extratoEntity = await _transacaoRepository.GerarExtratoPorInvestimento(investimentoId, clientId);
+        return _mapper.Map<IEnumerable<TransacaoDTO>>(extratoEntity);
     }
 
+    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoTotalCliente(int clientId)
+    {
+        var extratoEntity = await _transacaoRepository.GerarExtratoTotalCliente(clientId);
+        return _mapper.Map<IEnumerable<TransacaoDTO>>(extratoEntity);
+    }
 }
