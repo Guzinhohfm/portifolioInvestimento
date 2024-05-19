@@ -1,12 +1,13 @@
 ﻿using portifolioInvestimento.Models;
 
+
 namespace portifolioInvestimento.Interfaces;
 
 public interface IInvestimentoRepository
 {
     public Task<Investimento> AdicionarInvestimento(Investimento investimento);
 
-    public Task<IEnumerable<Investimento>> ListarInvestimentos();
+    public Task<IEnumerable<Investimento>> ListarInvestimentos(int skip, int take);
 
     public Task<Investimento> ListarInvestimentosNome(string nome);
 

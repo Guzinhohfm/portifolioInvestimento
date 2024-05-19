@@ -43,6 +43,12 @@ public class UsuarioRepository : IUsuarioRepository
         return await _context.usuarios.Where(x => x.Name == nome).FirstOrDefaultAsync();
     }
 
+    public async Task<IEnumerable<Usuario>> ObterUsuariosAdm()
+    {
+        var adm = TipoUsuario.Administrador;
+        return await _context.usuarios.Where(x => x.TipoUsuario == adm).ToListAsync();
+    }
+
     public async Task<Usuario> RemoverUsuario(int id)
     {
        var usuario =  await _context.usuarios.Where(x => x.Id == id).FirstOrDefaultAsync();

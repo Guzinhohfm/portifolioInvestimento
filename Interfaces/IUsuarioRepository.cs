@@ -15,5 +15,7 @@ namespace portifolioInvestimento.Interfaces
         public Task<Usuario> EditarUsuario(Usuario usuarioEditado);
 
         public Task<Usuario> RemoverUsuario(int id);
+
+        public Task<IEnumerable<Usuario>> ObterUsuariosAdm();
     }
 }

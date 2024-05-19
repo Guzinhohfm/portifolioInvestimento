@@ -40,7 +40,8 @@ namespace portifolioInvestimento.Controllers
             if (transacaoDTO == null)
                 return BadRequest("Dados inválidos");
 
-            await _transacaoService.Comprar(transacaoDTO);
+            await _transacaoService.Vender(transacaoDTO);
+
 
             return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId },
                 transacaoDTO);
@@ -49,9 +50,11 @@ namespace portifolioInvestimento.Controllers
 
         [HttpGet("GerarExtratoPorInvestimento")]
 
-        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoInvestimento([FromQuery] int investimentoId, int clientId)
+        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoInvestimento([FromQuery] 
+        int investimentoId, int clientId, int skip, int take)
         {
-            var extratoInvestimento = await _transacaoService.GerarExtratoPorInvestimento(investimentoId, clientId);
+            var extratoInvestimento = await _transacaoService.
+                GerarExtratoPorInvestimento(investimentoId, clientId, skip, take);
 
             if (extratoInvestimento == null)
                 return NotFound("Não há investimentos comprados");
@@ -62,13 +65,15 @@ namespace portifolioInvestimento.Controllers
 
         [HttpGet("GerarExtratoTotal")]
 
-        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoTotalCliente([FromQuery] int clientId)
+        public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoTotalCliente([FromQuery]
+                int clientId, int skip, int take)
         {
-            var extratoInvestimento = await _transacaoService.GerarExtratoTotalCliente(clientId);
+            var extratoInvestimento = await _transacaoService.GerarExtratoTotalCliente(clientId, skip, take);
 
             if (extratoInvestimento == null)
                 return NotFound("Não há investimentos comprados");
 
+           
             return Ok(extratoInvestimento);
         }
 

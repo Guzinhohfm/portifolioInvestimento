@@ -3,6 +3,7 @@ using portifolioInvestimento.DTOS;
 using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Models;
 
+
 namespace portifolioInvestimento.Services;
 
 public class InvestimentoService : IInvestimentoService
@@ -44,9 +45,9 @@ public class InvestimentoService : IInvestimentoService
         return _mapper.Map<InvestimentoDTO>(investimentoEntity);
     }
 
-    public async Task<IEnumerable<InvestimentoDTO>> ListarInvestimentos()
+    public async Task<IEnumerable<InvestimentoDTO>> ListarInvestimentos(int skip, int take)
     {
-        var investimentoEntity = await _investimentoRepository.ListarInvestimentos();
+        var investimentoEntity = await _investimentoRepository.ListarInvestimentos(skip, take);
         return _mapper.Map<IEnumerable<InvestimentoDTO>>(investimentoEntity);
     }
 

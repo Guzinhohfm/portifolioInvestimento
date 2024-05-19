@@ -47,6 +47,12 @@ public class UsuarioService : IUsuarioService
         return _mapper.Map<IEnumerable<UsuarioDTO>>(entityUsuario);
     }
 
+    public async Task<IEnumerable<UsuarioDTO>> ObterUsuariosAdm()
+    {
+        var entityUsuario = await _usuarioRepository.ObterUsuariosAdm();
+        return _mapper.Map<IEnumerable<UsuarioDTO>>(entityUsuario);
+    }
+
     public async Task RemoverUsuario(int id)
     {
         var entityUsuario = await _usuarioRepository.ListarUsuariosPorId(id);

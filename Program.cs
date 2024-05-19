@@ -4,6 +4,7 @@ using portifolioInvestimento.Interfaces;
 using portifolioInvestimento.Repositories;
 using portifolioInvestimento.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 var conexao = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<PortifolioDbContext>(options =>
+    
     options.UseSqlServer(conexao));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -25,8 +27,10 @@ builder.Services.AddScoped<IInvestimentoService, InvestimentoService>();
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddTransient<IEnviadorEmail, EnviadorEmail>(); // Transient utilizado para sempre que enviar um e-mail, uma nova instância do servico será gerada
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+
+
+builder.Services.AddHostedService<EmailSenderService>();
 
 
 var app = builder.Build();
@@ -47,3 +51,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

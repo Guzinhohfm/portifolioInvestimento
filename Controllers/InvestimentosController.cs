@@ -40,9 +40,10 @@ namespace portifolioInvestimento.Controllers
 
         [HttpGet("BuscarInvestimentos", Name = "GetInvestimento")]
 
-        public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> ListarInvestimentos()
+        public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> ListarInvestimentos([FromQuery]
+                    int skip = 0, int take = 10)
         {
-            var investimentosDTO = await _investimentoService.ListarInvestimentos();
+            var investimentosDTO = await _investimentoService.ListarInvestimentos(skip, take);
 
             if (investimentosDTO == null)
                 return NotFound("Não há investimentos criados");
@@ -77,11 +78,11 @@ namespace portifolioInvestimento.Controllers
         }
 
 
-        [HttpPut("EditarInvestimento/{nome}")]
+        [HttpPut("EditarInvestimento/{id}")]
         
-        public async Task<ActionResult> EditarInvestimento(string nome, [FromBody] InvestimentoDTO investimentoDTO)
+        public async Task<ActionResult> EditarInvestimento(int id, [FromBody] InvestimentoDTO investimentoDTO)
         {
-            if (nome != investimentoDTO.nome)
+            if (investimentoDTO.Id != id)
                 return BadRequest();
 
             if(investimentoDTO == null)

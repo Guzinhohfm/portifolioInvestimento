@@ -1,11 +1,12 @@
 ﻿using portifolioInvestimento.DTOS;
 using portifolioInvestimento.Models;
 
+
 namespace portifolioInvestimento.Interfaces;
 
 public interface IInvestimentoService
 {
-    Task<IEnumerable<InvestimentoDTO>> ListarInvestimentos();
+    Task<IEnumerable<InvestimentoDTO>> ListarInvestimentos(int skip, int take);
 
     Task<InvestimentoDTO> ListarInvestimentoNome(string nome);
 

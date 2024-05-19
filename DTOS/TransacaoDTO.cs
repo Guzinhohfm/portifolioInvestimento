@@ -13,5 +13,7 @@ namespace portifolioInvestimento.DTOS
         [Required(ErrorMessage = "valor da transação é obrigatório")]
         public decimal ValorTransacao {  get; set; }
 
+        public TipoTransacao TipoTransacao { get; set; }
+
     }
 }

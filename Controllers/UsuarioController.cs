@@ -51,6 +51,17 @@ namespace portifolioInvestimento.Controllers
         }
 
 
+        [HttpGet("BuscarUsuariosADM")]
+
+        public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ObterUsuariosAdm()
+        {
+            var usuariosDTO = await _usuarioService.ObterUsuariosAdm();
+
+
+            return Ok(usuariosDTO);
+
+        }
+
         [HttpGet("BuscarUsuariosNome/{nome}", Name = "GetUsuarioNome")]
 
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ListarUsuariosPorNome(string nome)

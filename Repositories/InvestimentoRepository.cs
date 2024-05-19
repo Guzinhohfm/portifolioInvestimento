@@ -38,9 +38,9 @@ public class InvestimentoRepository : IInvestimentoRepository
         return investimento;
     }
 
-    public async Task<IEnumerable<Investimento>> ListarInvestimentos()
+    public async Task<IEnumerable<Investimento>> ListarInvestimentos(int skip, int take)
     {
-        return await _context.investimentos.OrderBy(x => x.Nome).Where(x => x.Ativo == true).ToListAsync();
+        return await _context.investimentos.OrderBy(x => x.Nome).Where(x => x.Ativo == true).Skip(skip).Take(take).ToListAsync();
     }
 
 

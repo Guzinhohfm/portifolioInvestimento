@@ -1,5 +1,6 @@
 ﻿using portifolioInvestimento.DTOS;
 
+
 namespace portifolioInvestimento.Interfaces;
 
 public interface IUsuarioService
@@ -14,4 +15,6 @@ public interface IUsuarioService
 
     Task EditarUsuario(UsuarioDTO usuarioDTO);
     Task RemoverUsuario(int id);
+
+    Task<IEnumerable<UsuarioDTO>> ObterUsuariosAdm();
 }

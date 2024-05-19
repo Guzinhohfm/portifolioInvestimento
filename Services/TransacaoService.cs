@@ -29,15 +29,15 @@ public class TransacaoService : ITransacaoService
         await _transacaoRepository.Vender(transacaoEntity);
     }
 
-    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId)
+    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId, int skip, int take)
     {
-        var extratoEntity = await _transacaoRepository.GerarExtratoPorInvestimento(investimentoId, clientId);
+        var extratoEntity = await _transacaoRepository.GerarExtratoPorInvestimento(investimentoId, clientId, skip, take);
         return _mapper.Map<IEnumerable<TransacaoDTO>>(extratoEntity);
     }
 
-    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoTotalCliente(int clientId)
+    public async Task<IEnumerable<TransacaoDTO>> GerarExtratoTotalCliente(int clientId, int skip, int take)
     {
-        var extratoEntity = await _transacaoRepository.GerarExtratoTotalCliente(clientId);
+        var extratoEntity = await _transacaoRepository.GerarExtratoTotalCliente(clientId, skip, take);
         return _mapper.Map<IEnumerable<TransacaoDTO>>(extratoEntity);
     }
 }
