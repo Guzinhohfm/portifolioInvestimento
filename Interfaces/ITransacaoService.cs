@@ -4,9 +4,9 @@ namespace portifolioInvestimento.Interfaces;
 
 public interface ITransacaoService
 {
-    Task Comprar(TransacaoDTO transacaoDTO);
+    Task<TransacaoDTO> Comprar(TransacaoDTO transacaoDTO);
 
-    Task Vender(TransacaoDTO transacaoDTO);
+    Task<TransacaoDTO> Vender(TransacaoDTO transacaoDTO);
 
     Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId, int skip, int take);
 

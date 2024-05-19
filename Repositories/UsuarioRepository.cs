@@ -23,6 +23,12 @@ public class UsuarioRepository : IUsuarioRepository
 
     public async Task<Usuario> EditarUsuario(Usuario usuarioEditado)
     {
+        var usuarioExistente = _context.usuarios.Local.FirstOrDefault(u => u.Id == usuarioEditado.Id);
+
+        if (usuarioExistente != null)
+        {
+            _context.Entry(usuarioExistente).State = EntityState.Detached;
+        }
         _context.Entry(usuarioEditado).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return usuarioEditado;

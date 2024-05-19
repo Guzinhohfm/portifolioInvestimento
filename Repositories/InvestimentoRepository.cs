@@ -26,7 +26,9 @@ public class InvestimentoRepository : IInvestimentoRepository
     }
 
     public async Task<Investimento> EditarInvestimento(Investimento investimentoEditado)
+
     {
+        investimentoEditado.Ativo = true;
         _context.Entry(investimentoEditado).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return investimentoEditado;

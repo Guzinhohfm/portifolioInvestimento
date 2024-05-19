@@ -33,10 +33,20 @@ namespace portifolioInvestimento.Controllers
             if (transacaoDTO.ValorTransacao <= 0)
                 return BadRequest("valor da transação deve ser maior que 0");
 
-            await _transacaoService.Comprar(transacaoDTO);
+            var transacao = await _transacaoService.Comprar(transacaoDTO);
 
-            return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId},
-                transacaoDTO);
+            var newTransacaoCompra = new TransacaoDTO
+            {
+                ClientId = transacao.ClientId,
+                InvestimentoId = transacao.InvestimentoId,
+                NomeInvestimento = transacao.NomeInvestimento,
+                TipoTransacao = transacao.TipoTransacao,
+                ValorTransacao = transacao.ValorTransacao
+
+            };
+
+            return new CreatedAtRouteResult(new { clientId = transacao.ClientId, investimentoId = transacao.InvestimentoId},
+                newTransacaoCompra);
         }
 
         /// <summary>
@@ -53,11 +63,20 @@ namespace portifolioInvestimento.Controllers
             if (transacaoDTO == null)
                 return BadRequest("Dados inválidos");
 
-            await _transacaoService.Vender(transacaoDTO);
+            var transacao = await _transacaoService.Vender(transacaoDTO);
 
+            var newTransacaoVenda = new TransacaoDTO
+            {
+                ClientId = transacao.ClientId,
+                InvestimentoId = transacao.InvestimentoId,
+                NomeInvestimento = transacao.NomeInvestimento,
+                TipoTransacao = transacao.TipoTransacao,
+                ValorTransacao = transacao.ValorTransacao
 
-            return new CreatedAtRouteResult(new { id = transacaoDTO.InvestimentoId },
-                transacaoDTO);
+            };
+
+            return new CreatedAtRouteResult(new { clientId = transacao.ClientId, investimentoId = transacao.InvestimentoId },
+                newTransacaoVenda);
         }
 
         /// <summary>
@@ -74,7 +93,7 @@ namespace portifolioInvestimento.Controllers
         [HttpGet("GerarExtratoPorInvestimento")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoInvestimento([FromQuery] 
-        int investimentoId, int clientId, int skip = 0, int take = 1)
+        int investimentoId, int clientId, int skip = 0, int take = 10)
         {
             var extratoInvestimento = await _transacaoService.
                 GerarExtratoPorInvestimento(investimentoId, clientId, skip, take);
@@ -97,14 +116,15 @@ namespace portifolioInvestimento.Controllers
         [HttpGet("GerarExtratoTotal")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoTotalCliente([FromQuery]
-                int clientId, int skip = 0, int take = 1)
+                int clientId, int skip = 0, int take = 10)
         {
             var extratoInvestimento = await _transacaoService.GerarExtratoTotalCliente(clientId, skip, take);
-
+            
             if (extratoInvestimento == null)
                 return NotFound("Não há investimentos comprados");
 
            
+
             return Ok(extratoInvestimento);
         }
 

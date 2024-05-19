@@ -15,3 +15,5 @@ services:
       - ./CriarBanco.sql:/tmp/CriarBanco.sql
       - ./init-sqlserver.sh:/tmp/init-sqlserver.sh
     command: /bin/bash ./tmp/init-sqlserver.sh
+    
+    

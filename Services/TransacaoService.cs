@@ -17,16 +17,20 @@ public class TransacaoService : ITransacaoService
         _mapper = mapper;
     }
 
-    public async Task Comprar(TransacaoDTO transacaoDTO)
+    public async Task<TransacaoDTO> Comprar(TransacaoDTO transacaoDTO)
     {
         var transacaoEntity = _mapper.Map<Transacao>(transacaoDTO);
-        await _transacaoRepository.Comprar(transacaoEntity);
+        var transacao =  await _transacaoRepository.Comprar(transacaoEntity);
+
+        return _mapper.Map<TransacaoDTO>(transacao);
     }
 
-    public async Task Vender(TransacaoDTO transacaoDTO)
+    public async Task<TransacaoDTO> Vender(TransacaoDTO transacaoDTO)
     {
         var transacaoEntity = _mapper.Map<Transacao>(transacaoDTO);
-        await _transacaoRepository.Vender(transacaoEntity);
+        var transacao = await _transacaoRepository.Vender(transacaoEntity);
+
+        return _mapper.Map<TransacaoDTO>(transacao);
     }
 
     public async Task<IEnumerable<TransacaoDTO>> GerarExtratoPorInvestimento(int investimentoId, int clientId, int skip, int take)

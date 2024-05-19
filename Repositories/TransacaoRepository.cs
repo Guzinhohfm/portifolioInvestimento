@@ -23,11 +23,10 @@ public class TransacaoRepository : ITransacaoRepository
         transacao.TipoTransacao = TipoTransacao.Compra;
 
         int idInvestimento = transacao.InvestimentoId;
-
         var Investimento = await _investimentoService.ListarInvestimentoId(idInvestimento);
-
         transacao.NomeInvestimento = Investimento.nome;
         transacao.DataTransacao = DateTime.Now;
+
         _context.transacao.Add(transacao);
         await _context.SaveChangesAsync();
         return transacao;

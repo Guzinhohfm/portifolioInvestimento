@@ -39,7 +39,7 @@ builder.Services.AddScoped<IInvestimentoService, InvestimentoService>();
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 
 builder.Services.AddHostedService<EmailSenderService>();
