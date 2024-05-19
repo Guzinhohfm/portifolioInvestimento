@@ -16,7 +16,6 @@
 ## ▶️ Como rodar o projeto na sua máquina:
 
 - Rode o comando ```docker compose up```
-  
 - Rode o comando ```dotnet run```
 - Feito!
 
