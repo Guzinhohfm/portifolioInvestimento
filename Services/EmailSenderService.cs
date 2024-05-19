@@ -63,7 +63,7 @@ namespace portifolioInvestimento.Services
                     Where(x => x.TipoUsuario == Models.TipoUsuario.Administrador).
                     Select(x => x.Email).ToList();
 
-                var senhaAutenticacao = "dfru fvdz omlh feok\r\n";
+                var senhaAutenticacao = "teste@123";
 
                 string body = "";
                 
@@ -75,7 +75,7 @@ namespace portifolioInvestimento.Services
                 foreach (var email in emails)
                 {
                     var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress("Sistema", "g.fereira.moreira2@gmail.com"));
+                    message.From.Add(new MailboxAddress("Sistema", "testeapiinvestimento@gmail.com"));
                     message.To.Add(new MailboxAddress("", email));
                     message.Subject = "Lembrete diário de produtos com vencimento próximo";
                     message.Body = new TextPart("plain")
@@ -86,7 +86,7 @@ namespace portifolioInvestimento.Services
                     using (var client = new SmtpClient())
                     {
                         await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls, stoppingToken);
-                        await client.AuthenticateAsync("g.ferreira.moreira2@gmail.com", senhaAutenticacao);
+                        await client.AuthenticateAsync("testeapiinvestimento@gmail.com", senhaAutenticacao);
                         await client.SendAsync(message, stoppingToken);
                         await client.DisconnectAsync(true, stoppingToken);
                     }
