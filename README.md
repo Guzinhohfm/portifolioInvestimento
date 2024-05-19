@@ -20,13 +20,31 @@
 - Feito!
 
 ## Problemas encontrados no projeto e sua solução:
-### Problema 1:
-Criar um serviço que iria disparar e-mail diariamente para o usuário administrador
+### Problema 1: 
+Ao chamar a requisição para editar dados de um usuário no sistema, um erro de rastramento pelo dbContext era retornado.
+### Solução:
+- A abordagem utilizada para solucionar esse caso em que a entidade já está sendo rastreada foi desanexar a entidade do contexto e depois atualizando:
+```csharp
+   public async Task<Usuario> EditarUsuario(Usuario usuarioEditado)
+   {
+       var usuarioExistente = _context.usuarios.Local.FirstOrDefault(u => u.Id == usuarioEditado.Id);
+
+       if (usuarioExistente != null)
+       {
+           _context.Entry(usuarioExistente).State = EntityState.Detached;
+       }
+       _context.Entry(usuarioEditado).State = EntityState.Modified;
+       await _context.SaveChangesAsync();
+       return usuarioEditado;
+   }
+```
+### Problema 2:
+Criar um serviço que iria disparar e-mail diariamente para o usuário administrador.
 ### Solução:
 - Utilização do BackgroundService, que no contexto do .Net Core executa tarefas em segundo plano
-### Problema 2:
+### Problema 3:
 Um problema enfrentado foi na utilização do background service que iria disparar e-mail diariamente sobre produtos que estão com vencimento próximo, nesse caso é necessário chamar serviço de investimentos que retorna a lista de produtos, porém o serviço possui um 
-ciclo de vida scoped, o que impossibilita sua injeção no background service que possui um ciclo de vida singleton
+ciclo de vida scoped, o que impossibilita sua injeção no background service que possui um ciclo de vida singleton.
  ### Solução:
  - Uso do IServiceProvider, dessa forma a instância do serviço scoped é gerada e utilizada dentro do contexto correto:
 ```csharp
