@@ -165,7 +165,7 @@ namespace portifolioInvestimento.Controllers
 
             await _usuarioService.RemoverUsuario(id);
 
-            return Ok(usuarioDTO);
+            return Ok("Usuário deletado com sucesso");
 
         }
 
