@@ -18,8 +18,13 @@ namespace portifolioInvestimento.Controllers
             _investimentoService = investimentoService;
         }
 
+        ///<summary>Inclui um novo produto de investimento ao sistema</summary>
+        ///<param name="investimentoDTO">Objeto com os campos de envio necessários para a criação de um produto de investimento</param>
+        ///<returns>ActionResult</returns>
+        ///<response code="201">Retorno de criado caso seja inserido com sucesso</response>
+
         [HttpPost("AdicionarNovoInvestimento")]
-        
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<InvestimentoDTO>> AdicionarInvestimento([FromBody] InvestimentoDTO investimentoDTO)
         {
             if (investimentoDTO == null)
@@ -38,8 +43,16 @@ namespace portifolioInvestimento.Controllers
             return CreatedAtAction(nameof(ListarInvestimentoPorId), new { Id = investimento.Id }, newInvestimento);
             }
 
-        [HttpGet("BuscarInvestimentos", Name = "GetInvestimento")]
+        /// <summary>
+        /// Retornará todos os investimentos ativos no sistema
+        /// </summary>
+        /// <param name="skip">Número de elementos que deseja **pular** na pesquisa</param>
+        /// <param name="take">Número de elementos que deseja **pegar** da pesquisa</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso seja realizado com sucesso</response>
 
+        [HttpGet("BuscarInvestimentos", Name = "GetInvestimento")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<InvestimentoDTO>>> ListarInvestimentos([FromQuery]
                     int skip = 0, int take = 10)
         {
@@ -53,9 +66,16 @@ namespace portifolioInvestimento.Controllers
             
         }
 
+        /// <summary>
+        /// Retornará o produto cadastrado no sistema pelo nome do investimento informado 
+        /// </summary>
+        /// <param name="nome">Nome do produto de investimento desejado</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso seja realizado com sucesso</response>
+
         [HttpGet("BuscarInvestimentoNome/{nome}", Name = "GetInvestimentoNome")]
-       
-       public async Task<ActionResult<InvestimentoDTO>> ListarInvestimentoPorNome(string nome)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<InvestimentoDTO>> ListarInvestimentoPorNome(string nome)
         {
             var investimentoDTO = await _investimentoService.ListarInvestimentoNome(nome);
 
@@ -65,8 +85,16 @@ namespace portifolioInvestimento.Controllers
             
         }
 
-        [HttpGet("BuscarInvestimentoId/{id}", Name = "GetInvestimentoId")]
+        /// <summary>
+        /// Retornará o produto cadastrado no sistema pelo id do investimento informado 
+        /// </summary>
+        /// <param name="id">Número do id do produto de investimento</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso seja realizado com sucesso</response>
 
+
+        [HttpGet("BuscarInvestimentoId/{id}", Name = "GetInvestimentoId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<InvestimentoDTO>> ListarInvestimentoPorId(int id)
         {
             var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);
@@ -77,9 +105,17 @@ namespace portifolioInvestimento.Controllers
 
         }
 
+        /// <summary>
+        /// Editará um produto de investimento cadastrado no sistema
+        /// </summary>
+        /// <param name="id">Número de id do produto de investimento</param>
+        /// <param name="investimentoDTO">Objeto contendo os dados que deseja alterar</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso seja realizado com sucesso</response>
+
 
         [HttpPut("EditarInvestimento/{id}")]
-        
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> EditarInvestimento(int id, [FromBody] InvestimentoDTO investimentoDTO)
         {
             if (investimentoDTO.Id != id)
@@ -94,8 +130,15 @@ namespace portifolioInvestimento.Controllers
         }
 
 
-        [HttpPut("DesativarInvestimento/{id}")]
+        /// <summary>
+        /// Desativará um produto de investimento que não é mais utilizado
+        /// </summary>
+        /// <param name="id">Número do id do produto desejado</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso seja realizado com sucesso</response>
 
+        [HttpPut("DesativarInvestimento/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<InvestimentoDTO>> RemoverInvestimento(int id)
         {
             var investimentoDTO = await _investimentoService.ListarInvestimentoId(id);

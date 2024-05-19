@@ -16,7 +16,15 @@ namespace portifolioInvestimento.Controllers
             _usuarioService = usuarioService;
         }
 
+
+        /// <summary>
+        /// Criar um novo usuário no sistema
+        /// </summary>
+        /// <param name="usuarioDTO">Objeto com os dados necessários para criação do usuário</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="201">Retornará caso a operação seja realizada com sucesso</response>
         [HttpPost("CriarUsuario")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
 
         public async Task<ActionResult<UsuarioDTO>> CriarUsuario([FromBody] UsuarioDTO usuarioDTO)
         {
@@ -37,8 +45,13 @@ namespace portifolioInvestimento.Controllers
             return CreatedAtAction(nameof(ListarUsuariosPorId), new { Id = usuario.Id }, newUsuario);
         }
 
+        /// <summary>
+        /// Retornará todos os usuários cadastrados no sistema
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
         [HttpGet("BuscarUsuarios")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> listarUsuarios()
         {
             var usuariosDTO = await _usuarioService.listarUsuarios();
@@ -50,9 +63,13 @@ namespace portifolioInvestimento.Controllers
 
         }
 
-
+        /// <summary>
+        /// Retornará todos os usuários administradores cadastrados no sistema
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
         [HttpGet("BuscarUsuariosADM")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ObterUsuariosAdm()
         {
             var usuariosDTO = await _usuarioService.ObterUsuariosAdm();
@@ -62,8 +79,15 @@ namespace portifolioInvestimento.Controllers
 
         }
 
-        [HttpGet("BuscarUsuariosNome/{nome}", Name = "GetUsuarioNome")]
 
+        /// <summary>
+        /// Retornará um usuário pelo nome cadastrado no sistema
+        /// </summary>
+        /// <param name="nome">Nome do usuário que deseja buscar</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
+        [HttpGet("BuscarUsuariosNome/{nome}", Name = "GetUsuarioNome")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UsuarioDTO>>> ListarUsuariosPorNome(string nome)
         {
             var usuariosDTO = await _usuarioService.ListarUsuarioPorNome(nome);
@@ -75,9 +99,15 @@ namespace portifolioInvestimento.Controllers
 
         }
 
+        /// <summary>
+        /// Retornará um usuário pelo id cadastrado no sistema
+        /// </summary>
+        /// <param name="id">Nome do usuário que deseja buscar</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
 
         [HttpGet("BuscarUsuarios/{id}", Name = "GetUsuarioId")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<UsuarioDTO>> ListarUsuariosPorId(int id)
         {
             var usuariosDTO = await _usuarioService.ListarUsuarioPorId(id);
@@ -89,9 +119,15 @@ namespace portifolioInvestimento.Controllers
 
         }
 
+        /// <summary>
+        /// Editará um usuário cadastrado no sistema
+        /// </summary>
+        /// <param name="UsuarioDTO">Objeto com os dados que deseja editar</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
 
         [HttpPut("EditarUsuario")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> EditarUsuario([FromBody] UsuarioDTO UsuarioDTO)
         {
 
@@ -108,6 +144,12 @@ namespace portifolioInvestimento.Controllers
             return Ok(UsuarioDTO);
         }
 
+        /// <summary>
+        /// Deletará um usuário cadastrado no sistema
+        /// </summary>
+        /// <param name="id">Número id do usuário que deseja deletar</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200"></response>
 
         [HttpDelete("RemoverUsuario/{id}")]
 

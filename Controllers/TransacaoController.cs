@@ -16,8 +16,15 @@ namespace portifolioInvestimento.Controllers
             _transacaoService = transacaoService;
         }
 
-        [HttpPost("Comprar")]
+        /// <summary>
+        /// Serviço para realização de uma compra do produto de investimento
+        /// </summary>
+        /// <param name="transacaoDTO">Objeto em que é passado os dados necessários para efetuar a compra</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="201">Retorno caso operação seja realizada com sucesso</response>
 
+        [HttpPost("Comprar")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<TransacaoDTO>> Comprar([FromBody] TransacaoDTO transacaoDTO)
         {
             if (transacaoDTO == null)
@@ -32,9 +39,15 @@ namespace portifolioInvestimento.Controllers
                 transacaoDTO);
         }
 
+        /// <summary>
+        /// Serviço para realização de uma venda do produto de investimento
+        /// </summary>
+        /// <param name="transacaoDTO">Objeto em que é passado os dados necessários para efetuar a venda</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="201">Retorno caso operação seja realizada com sucesso</response>
 
         [HttpPost("Vender")]
-
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<TransacaoDTO>> Vender([FromBody] TransacaoDTO transacaoDTO)
         {
             if (transacaoDTO == null)
@@ -47,11 +60,21 @@ namespace portifolioInvestimento.Controllers
                 transacaoDTO);
         }
 
+        /// <summary>
+        /// Gerar o extrato do usuário com base no produto de investimento desejado
+        /// </summary>
+        /// <param name="investimentoId">Número do id do produto de investimento desejado</param>
+        /// <param name="clientId">Número do id do usuário</param>
+        /// <param name="skip">Número de elementos que deseja **pular** na pesquisa</param>
+        /// <param name="take">Número de elementos que deseja **pegar** na pesquisa</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso operação seja realizada com sucesso</response>
+
 
         [HttpGet("GerarExtratoPorInvestimento")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoInvestimento([FromQuery] 
-        int investimentoId, int clientId, int skip, int take)
+        int investimentoId, int clientId, int skip = 0, int take = 1)
         {
             var extratoInvestimento = await _transacaoService.
                 GerarExtratoPorInvestimento(investimentoId, clientId, skip, take);
@@ -62,11 +85,19 @@ namespace portifolioInvestimento.Controllers
             return Ok(extratoInvestimento);
         }
 
+        /// <summary>
+        /// Serviço que retorna um extrato geral por usuário
+        /// </summary>
+        /// <param name="clientId">Número do id do usuário</param>
+        /// <param name="skip">Número de elementos que deseja **pular** na pesquisa</param>
+        /// <param name="take">Número de elementos que deseja **pegar** na pesquisa</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorno caso operação seja realizada com sucesso</response>
 
         [HttpGet("GerarExtratoTotal")]
-
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TransacaoDTO>>> GerarExtratoTotalCliente([FromQuery]
-                int clientId, int skip, int take)
+                int clientId, int skip = 0, int take = 1)
         {
             var extratoInvestimento = await _transacaoService.GerarExtratoTotalCliente(clientId, skip, take);
 
